@@ -1,0 +1,28 @@
+{
+  "coverageThresholds": {
+    "statements": 90,
+    "branches": 85,
+    "functions": 90,
+    "lines": 90
+  },
+  "documentationRequirements": {
+    "requireExportDocumentation": true,
+    "requireExamples": true,
+    "requireConfigDocumentation": true,
+    "requireCrossReferences": true
+  },
+  "validationRules": {
+    "failOnCritical": true,
+    "failOnWarning": false,
+    "failOnInfo": false
+  },
+  "reportFormats": {
+    "html": true,
+    "json": true,
+    "console": true
+  },
+  "packages": {
+    "include": ["packages/*"],
+    "exclude": []
+  }
+}
