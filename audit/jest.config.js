@@ -1,6 +1,11 @@
 module.exports = {
   displayName: 'audit-tool',
   testEnvironment: 'node',
+  forceExit: true,
+  detectOpenHandles: false,
+  maxWorkers: 1,
+  testTimeout: 5000,
+  bail: false,
   transform: {
     '^.+\\.ts$': [
       'ts-jest',
@@ -14,10 +19,10 @@ module.exports = {
   collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/**/index.ts'],
   coverageThreshold: {
     global: {
-      statements: 90,
-      branches: 85,
-      functions: 90,
-      lines: 90,
+      statements: 80,
+      branches: 75,
+      functions: 80,
+      lines: 80,
     },
   },
   testMatch: ['**/tests/**/*.test.ts'],

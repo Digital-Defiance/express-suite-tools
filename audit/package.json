@@ -20,7 +20,8 @@
     "prettier:fix": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
     "audit": "node dist/cli.js audit",
     "audit:package": "node dist/cli.js audit:package",
-    "validate": "node dist/cli.js validate"
+    "validate": "node dist/cli.js validate",
+    "generate-reports": "node dist/generate-comprehensive-reports.js"
   },
   "keywords": [
     "audit",
