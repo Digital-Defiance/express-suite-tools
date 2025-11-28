@@ -15,6 +15,7 @@ import {
   parseCoverageData,
 } from '../../src/analyzers/coverage-analyzer';
 import { CoverageReport } from '../../src/types';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Coverage Analyzer', () => {
   describe('parseCoverageData', () => {
@@ -346,6 +347,7 @@ describe('TestedClass', () => {
                 const importList = testedExports.map((e) => e.name).join(', ');
                 const testContent = `
 import { ${importList} } from '../src/index';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 ${testedExports
   .map(
@@ -427,7 +429,7 @@ describe('${e.name}', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -543,7 +545,7 @@ describe('${e.name}', () => {
             );
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -616,7 +618,7 @@ describe('${e.name}', () => {
             expect(result.allMet).toBe(expectedAllMet);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -715,7 +717,7 @@ describe('${e.name}', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
   });

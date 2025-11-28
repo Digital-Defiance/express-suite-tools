@@ -17,6 +17,7 @@ import {
   validateBinaryCompatibility,
 } from '../../src/analyzers/cross-package-analyzer';
 import { PackageNode } from '../../src/types';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Cross-Package Analyzer', () => {
   describe('analyzeDependencies', () => {
@@ -371,7 +372,7 @@ describe('Cross-Package Analyzer', () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -476,7 +477,7 @@ describe('Cross-Package Analyzer', () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -529,7 +530,7 @@ describe('Cross-Package Analyzer', () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -601,7 +602,7 @@ describe('Cross-Package Analyzer', () => {
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -661,7 +662,7 @@ describe('Cross-Package Analyzer', () => {
             fs.rmSync(tempDir, { recursive: true, force: true });
           }
         }),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
   });

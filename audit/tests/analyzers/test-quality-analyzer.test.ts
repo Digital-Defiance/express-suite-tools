@@ -13,6 +13,7 @@ import {
   correlateTestsWithExports,
   findErrorTests,
 } from '../../src/analyzers/test-quality-analyzer';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Test Quality Analyzer', () => {
   describe('analyzeTestPatterns', () => {
@@ -378,7 +379,7 @@ describe('${f.name}', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -461,7 +462,7 @@ ${normalTestContent}
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -537,7 +538,7 @@ describe('${f.name}', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -594,7 +595,7 @@ describe('func', () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
   });

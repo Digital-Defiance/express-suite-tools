@@ -14,6 +14,7 @@ import {
   hasTestingSection,
   validateTestingApproach,
 } from '../../src/validators/testing-approach-validator';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Testing Approach Validator', () => {
   let tempDir: string;
@@ -566,7 +567,7 @@ To test integration with @digitaldefiance/other-package, use the following appro
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -666,7 +667,7 @@ To test integration with @digitaldefiance/other-package, use the following appro
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -771,7 +772,7 @@ To test integration with @digitaldefiance/other-package, use the following appro
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -837,7 +838,7 @@ To test integration with @digitaldefiance/other-package, use the following appro
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -879,7 +880,7 @@ To test integration with @digitaldefiance/other-package, use the following appro
             expect(summary.completenessScore).toBeLessThanOrEqual(100);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -931,7 +932,7 @@ To test integration with @digitaldefiance/other-package, use the following appro
             );
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
   });

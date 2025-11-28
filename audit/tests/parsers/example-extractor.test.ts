@@ -15,6 +15,7 @@ import {
   getExampleLocation,
   getExampleStatistics,
 } from '../../src/parsers/example-extractor';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Example Extractor', () => {
   describe('extractCodeExamples', () => {
@@ -510,7 +511,7 @@ funcA();
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -551,7 +552,7 @@ funcA();
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -592,7 +593,7 @@ funcA();
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -640,7 +641,7 @@ funcA();
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -685,7 +686,7 @@ funcA();
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -735,7 +736,7 @@ funcA();
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -800,7 +801,7 @@ funcA();
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
   });

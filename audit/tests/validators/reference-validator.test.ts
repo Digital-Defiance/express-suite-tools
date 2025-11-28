@@ -19,6 +19,7 @@ import {
   verifyExportExists,
   verifyPackageExists,
 } from '../../src/validators/reference-validator';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Reference Validator', () => {
   describe('parsePackageReferences', () => {
@@ -321,7 +322,9 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
         expect(validRefs.length).toBeGreaterThan(0);
         expect(invalidRefs.length).toBeGreaterThan(0);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) {
+          fs.unlinkSync(tempFile);
+        }
       }
     });
   });
@@ -491,7 +494,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -591,7 +594,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -651,7 +654,7 @@ See [${packageRef}](../${packageName}) and use \`${packageRef}\` in your project
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -709,7 +712,7 @@ import { ${symbolName} } from '${packageRef}';
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -756,7 +759,7 @@ import { ${symbolName} } from '${packageRef}';
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
   });

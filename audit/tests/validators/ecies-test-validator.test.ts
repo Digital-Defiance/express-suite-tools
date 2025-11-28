@@ -13,6 +13,7 @@ import {
   generateEciesTestReport,
   validateEciesTests,
 } from '../../src/validators/ecies-test-validator';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('ECIES Test Validator', () => {
   let tempDir: string;
@@ -397,7 +398,7 @@ describe('Test ${mode} with ${provider}', () => {
             fs.rmSync(packagePath, { recursive: true, force: true });
           }
         }),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -460,7 +461,7 @@ describe('Test ${mode} with ${provider}', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -506,7 +507,7 @@ describe('Test ${mode} with ${provider}', () => {
             fs.rmSync(packagePath, { recursive: true, force: true });
           }
         }),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -575,7 +576,7 @@ describe('Test ${mode} with ${provider}', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -637,7 +638,7 @@ describe('Test mode ${count} with provider ${count}', () => {
             fs.rmSync(packagePath, { recursive: true, force: true });
           }
         }),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -741,7 +742,7 @@ describe('Binary compatibility', () => {
             fs.rmSync(packagePath, { recursive: true, force: true });
           }
         }),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -795,7 +796,7 @@ describe('Binary compatibility', () => {
             expect(report2).toBe(report3);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
   });

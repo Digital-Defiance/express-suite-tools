@@ -17,6 +17,7 @@ import {
   matchExportsToDocumentation,
 } from '../../src/analyzers/documentation-analyzer';
 import { CodeExample, DocumentedSymbol, ExportedSymbol } from '../../src/types';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Documentation Analyzer', () => {
   describe('analyzePackage', () => {
@@ -480,7 +481,7 @@ testFunction();
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -531,7 +532,7 @@ testFunction();
             expect(completeness).toBe(expected);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -590,7 +591,7 @@ testFunction();
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -628,7 +629,7 @@ testFunction();
             expect(resultNames).toEqual(originalNames);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
   });
@@ -729,7 +730,7 @@ describe('Configuration Documentation Tests', () => {
             expect(undocumentedNames).toEqual(expectedNames);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -788,7 +789,7 @@ describe('Configuration Documentation Tests', () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -829,7 +830,7 @@ describe('Configuration Documentation Tests', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
   });

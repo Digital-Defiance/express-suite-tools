@@ -12,6 +12,7 @@ import {
   extractCodeExamples,
   parseReadmeContent,
 } from '../../src/parsers/markdown-parser';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Markdown Parser', () => {
   describe('parseReadmeContent', () => {
@@ -182,6 +183,7 @@ const x = 42;
 
 \`\`\`typescript
 import { myFunction } from './module';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 myFunction();
 \`\`\`
       `.trim();
@@ -363,7 +365,7 @@ const y = 2;
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -417,7 +419,7 @@ const y = 2;
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -450,7 +452,7 @@ const y = 2;
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -504,7 +506,7 @@ instance.${functionName}();
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
       );
     });
 
@@ -539,7 +541,7 @@ instance.${functionName}();
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
   });

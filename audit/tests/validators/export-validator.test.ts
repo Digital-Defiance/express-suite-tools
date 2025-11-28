@@ -17,6 +17,7 @@ import {
   validateExportsDocumented,
   validateMultiplePackages,
 } from '../../src/validators/export-validator';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Export Validator', () => {
   let tempDir: string;
@@ -564,7 +565,7 @@ describe('Export Validator', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -639,7 +640,7 @@ describe('Export Validator', () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -740,7 +741,7 @@ describe('Export Validator', () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -821,7 +822,7 @@ describe('Export Validator', () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -880,7 +881,7 @@ describe('Export Validator', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
   });

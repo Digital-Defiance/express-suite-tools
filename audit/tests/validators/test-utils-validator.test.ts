@@ -16,6 +16,7 @@ import {
   getTestUtilsValidationSummary,
   validateTestUtils,
 } from '../../src/validators/test-utils-validator';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Test Utils Validator', () => {
   let tempDir: string;
@@ -498,7 +499,7 @@ describe('Test Utils Validator', () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -578,7 +579,7 @@ describe('Test Utils Validator', () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -638,7 +639,7 @@ describe('Test Utils Validator', () => {
             expect(withoutExamples1.length).toBe(withoutExamples2.length);
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -701,7 +702,7 @@ describe('Test Utils Validator', () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
 
@@ -788,7 +789,7 @@ describe('Test Utils Validator', () => {
             expect(summary.validationPercentage).toBeLessThanOrEqual(100);
           }
         ),
-        { numRuns: 20 }
+        { numRuns: PROPERTY_TEST_CONFIG.EXPENSIVE }
       );
     });
   });

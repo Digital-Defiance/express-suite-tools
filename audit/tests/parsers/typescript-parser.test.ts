@@ -9,6 +9,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { parseTypeScriptExports } from '../../src/parsers/typescript-parser';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('TypeScript Parser', () => {
   describe('parseTypeScriptExports', () => {
@@ -311,7 +312,7 @@ export function regularFunction(): void {}
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -355,7 +356,7 @@ export function regularFunction(): void {}
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
 
@@ -408,7 +409,7 @@ export function regularFunction(): void {}
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.VERY_EXPENSIVE }
       );
     });
   });

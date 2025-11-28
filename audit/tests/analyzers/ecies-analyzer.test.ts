@@ -17,6 +17,7 @@ import {
   isEciesPackage,
 } from '../../src/analyzers/ecies-analyzer';
 import { PackageDocumentation } from '../../src/types';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('ECIES Analyzer', () => {
   describe('isEciesPackage', () => {
@@ -557,7 +558,7 @@ describe('Test ${combo.mode} with ${combo.provider}', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -627,7 +628,7 @@ describe('Test ${mode} with ${provider}', () => {
             fs.rmSync(tempDir, { recursive: true, force: true });
           }
         }),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -691,7 +692,7 @@ describe('Test ${mode} with ${provider}', () => {
             fs.rmSync(tempDir, { recursive: true, force: true });
           }
         }),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -759,7 +760,7 @@ ${modeReferences.map((ref) => `- ${ref}`).join('\n')}
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -829,7 +830,7 @@ ${providerReferences.map((ref) => `- ${ref}`).join('\n')}
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
   });

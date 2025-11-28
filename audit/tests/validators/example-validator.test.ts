@@ -15,6 +15,7 @@ import {
   validateExampleExecutability,
   validateExamples,
 } from '../../src/validators/example-validator';
+import { PROPERTY_TEST_CONFIG } from '../test-config';
 
 describe('Example Validator', () => {
   let tempDir: string;
@@ -243,7 +244,7 @@ describe('Example Validator', () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -289,7 +290,7 @@ describe('Example Validator', () => {
             );
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -341,7 +342,7 @@ describe('Example Validator', () => {
             expect(result[0].hasTest).toBe(hasOverlap);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
 
@@ -383,7 +384,7 @@ describe('Example Validator', () => {
             expect(result).toBeNull();
           }
         ),
-        { numRuns: 100 }
+        { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
       );
     });
   });
@@ -475,7 +476,7 @@ describe('Automated Example Verification', () => {
           }
         }
       ),
-      { numRuns: 100 }
+      { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
     );
   });
 
@@ -528,7 +529,7 @@ describe('Automated Example Verification', () => {
           }
         }
       ),
-      { numRuns: 50 }
+      { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
     );
   });
 
@@ -563,7 +564,7 @@ describe('Automated Example Verification', () => {
           }
         }
       ),
-      { numRuns: 50 }
+      { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
     );
   });
 
@@ -618,7 +619,7 @@ describe('Automated Example Verification', () => {
           }
         }
       ),
-      { numRuns: 50 }
+      { numRuns: PROPERTY_TEST_CONFIG.STANDARD }
     );
   });
 
@@ -676,7 +677,7 @@ describe('Automated Example Verification', () => {
           }
         }
       ),
-      { numRuns: 100 }
+      { numRuns: PROPERTY_TEST_CONFIG.SIMPLE }
     );
   });
 });
