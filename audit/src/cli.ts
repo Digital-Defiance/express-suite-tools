@@ -151,7 +151,7 @@ function saveReport(
       }
       console.log(chalk.green(`✅ HTML report saved to ${outputPath}`));
     }
-  } catch (_error) {
+  } catch (error) {
     console.error(chalk.red(`❌ Failed to save report: ${error}`));
     process.exit(1);
   }
@@ -245,7 +245,7 @@ program
         console.log(chalk.green('\n✅ Audit completed successfully'));
         process.exit(0);
       }
-    } catch (_error) {
+    } catch (error) {
       console.error(chalk.red(`\n❌ Audit failed: ${error}`));
       if (config.verbose) {
         console.error(error);
@@ -334,7 +334,7 @@ program
         console.log(chalk.green('\n✅ Audit completed successfully'));
         process.exit(0);
       }
-    } catch (_error) {
+    } catch (error) {
       console.error(chalk.red(`\n❌ Audit failed: ${error}`));
       if (config.verbose) {
         console.error(error);
@@ -440,7 +440,7 @@ program
         console.log(chalk.green('\n✅ Validation passed'));
         process.exit(0);
       }
-    } catch (_error) {
+    } catch (error) {
       console.error(chalk.red(`\n❌ Validation failed: ${error}`));
       if (config.verbose) {
         console.error(error);
@@ -501,7 +501,7 @@ program
 
       console.log(chalk.green('\n✅ Report generated successfully'));
       process.exit(0);
-    } catch (_error) {
+    } catch (error) {
       console.error(chalk.red(`\n❌ Report generation failed: ${error}`));
       if (config.verbose) {
         console.error(error);

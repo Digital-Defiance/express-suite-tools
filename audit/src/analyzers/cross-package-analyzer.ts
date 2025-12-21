@@ -68,7 +68,7 @@ export function analyzeDependencies(
           type: 'devDependency',
         });
       }
-    } catch (_error) {
+    } catch (error) {
       console.warn(`Warning: Could not parse ${packageJsonPath}: ${error}`);
     }
   }
@@ -194,7 +194,7 @@ export function findIntegrationPoints(
             }
           }
         }
-      } catch (_error) {
+      } catch (error) {
         console.warn(`Warning: Could not analyze ${tsFile}: ${error}`);
       }
     }
@@ -635,7 +635,7 @@ export function checkDocumentedIntegrations(
           });
         }
       }
-    } catch (_error) {
+    } catch (error) {
       console.warn(`Warning: Could not analyze ${readmePath}: ${error}`);
     }
   }

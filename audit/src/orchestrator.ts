@@ -104,7 +104,7 @@ export function runFullAudit(
         );
         console.log(`  Issues: ${result.issues.length}`);
       }
-    } catch (_error) {
+    } catch (error) {
       console.error(`Error auditing ${packageName}: ${error}`);
     }
   }
@@ -166,7 +166,7 @@ export function runPackageAudit(
   if (opts.includeCoverage) {
     try {
       coverage = runCoverageAnalysis(packagePath);
-    } catch (_error) {
+    } catch (error) {
       if (opts.verbose) {
         console.warn(`  Warning: Could not analyze coverage: ${error}`);
       }
@@ -290,7 +290,7 @@ export function runPackageAudit(
             });
           }
         }
-      } catch (_error) {
+      } catch (error) {
         if (opts.verbose) {
           console.warn(
             `  Warning: Could not validate cross-references: ${error}`
@@ -392,7 +392,7 @@ export function runIncrementalAudit(
     try {
       const result = runPackageAudit(packagePath, opts);
       packageResults.push(result);
-    } catch (_error) {
+    } catch (error) {
       console.error(`Error auditing ${packageName}: ${error}`);
     }
   }

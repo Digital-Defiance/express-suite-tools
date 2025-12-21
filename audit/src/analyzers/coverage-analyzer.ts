@@ -72,7 +72,7 @@ export function runJestCoverage(packagePath: string): RawCoverageData {
 
     // If no coverage file, return empty coverage
     return createEmptyCoverageData();
-  } catch (_error) {
+  } catch (error) {
     // If Jest fails or no tests exist, return empty coverage
     console.warn(
       `Warning: Could not run coverage for ${packagePath}: ${error}`
@@ -280,7 +280,7 @@ function extractTestedSymbols(testFiles: string[]): Set<string> {
           testedSymbols.add(symbolMatch[1]);
         }
       }
-    } catch (_error) {
+    } catch (error) {
       console.warn(`Warning: Could not read test file ${testFile}: ${error}`);
     }
   }

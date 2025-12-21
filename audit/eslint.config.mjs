@@ -24,26 +24,12 @@ export default [
     ignores: ['dist/**', 'node_modules/**', '**/*.js', '**/*.d.ts'],
   },
   {
-    files: ['src/**/*.ts'],
+    files: ['**/*.ts'],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint,
-    },
-    rules: sharedRules,
-  },
-  {
-    files: ['tests/**/*.ts'],
-    languageOptions: {
-      parser: tsparser,
-      parserOptions: {
-        project: './tsconfig.spec.json',
-        tsconfigRootDir: import.meta.dirname,
+        ecmaVersion: 2022,
+        sourceType: 'module',
       },
     },
     plugins: {

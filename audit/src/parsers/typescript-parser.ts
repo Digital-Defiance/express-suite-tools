@@ -96,7 +96,7 @@ function findTypeScriptFiles(dir: string): string[] {
  */
 function extractExportsFromFile(
   sourceFile: ts.SourceFile,
-  _checker: ts.TypeChecker,
+  checker: ts.TypeChecker,
   packagePath: string
 ): ExportedSymbol[] {
   const exports: ExportedSymbol[] = [];
@@ -162,7 +162,7 @@ function hasExportModifier(node: ts.Node): boolean {
  */
 function extractSymbolFromNode(
   node: ts.Node,
-  _checker: ts.TypeChecker,
+  checker: ts.TypeChecker,
   sourceFile: string
 ): ExportedSymbol | null {
   // Function declarations
@@ -236,7 +236,7 @@ function extractSymbolFromNode(
  */
 function handleExportDeclaration(
   node: ts.ExportDeclaration,
-  _checker: ts.TypeChecker,
+  checker: ts.TypeChecker,
   sourceFile: ts.SourceFile,
   relativeFilePath: string
 ): ExportedSymbol[] {
@@ -276,7 +276,7 @@ function handleExportDeclaration(
  */
 function handleExportAssignment(
   node: ts.ExportAssignment,
-  _checker: ts.TypeChecker,
+  checker: ts.TypeChecker,
   sourceFile: string
 ): ExportedSymbol | null {
   if (ts.isIdentifier(node.expression)) {
@@ -335,7 +335,7 @@ function getSymbolType(
  */
 function getSymbolSignature(
   symbol: ts.Symbol,
-  _checker: ts.TypeChecker,
+  checker: ts.TypeChecker,
   type: 'function' | 'class' | 'interface' | 'type' | 'const'
 ): string {
   const declarations = symbol.getDeclarations();
