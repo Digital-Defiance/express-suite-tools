@@ -342,7 +342,7 @@ function getPackageName(packagePath: string): string {
     try {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       return packageJson.name || path.basename(packagePath);
-    } catch (error) {
+    } catch (_error) {
       return path.basename(packagePath);
     }
   }
@@ -420,7 +420,7 @@ function checkCombinationTested(
       if (modePattern.test(content) && providerPattern.test(content)) {
         return true;
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files that can't be read
       continue;
     }

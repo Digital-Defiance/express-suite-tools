@@ -239,7 +239,7 @@ export function verifyExportExists(
         ...ref,
         isValid: symbolExists,
       };
-    } catch (error) {
+    } catch (_error) {
       // If parsing fails, mark as invalid
       return {
         ...ref,

@@ -660,9 +660,9 @@ describe('Configuration Documentation Tests', () => {
         ],
       };
 
-      const {
-        findUndocumentedConfigOptions,
-      } = require('../../src/analyzers/documentation-analyzer');
+      const { findUndocumentedConfigOptions } =
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        require('../../src/analyzers/documentation-analyzer');
       const result = findUndocumentedConfigOptions(packageDoc);
 
       expect(result).toHaveLength(1);
@@ -706,9 +706,9 @@ describe('Configuration Documentation Tests', () => {
               })),
             };
 
-            const {
-              findUndocumentedConfigOptions,
-            } = require('../../src/analyzers/documentation-analyzer');
+            const { findUndocumentedConfigOptions } =
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
+              require('../../src/analyzers/documentation-analyzer');
             const undocumented = findUndocumentedConfigOptions(packageDoc);
 
             // Count expected undocumented configs

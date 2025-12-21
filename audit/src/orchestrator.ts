@@ -104,7 +104,7 @@ export function runFullAudit(
         );
         console.log(`  Issues: ${result.issues.length}`);
       }
-    } catch (error) {
+    } catch (_error) {
       console.error(`Error auditing ${packageName}: ${error}`);
     }
   }
@@ -166,7 +166,7 @@ export function runPackageAudit(
   if (opts.includeCoverage) {
     try {
       coverage = runCoverageAnalysis(packagePath);
-    } catch (error) {
+    } catch (_error) {
       if (opts.verbose) {
         console.warn(`  Warning: Could not analyze coverage: ${error}`);
       }
@@ -290,7 +290,7 @@ export function runPackageAudit(
             });
           }
         }
-      } catch (error) {
+      } catch (_error) {
         if (opts.verbose) {
           console.warn(
             `  Warning: Could not validate cross-references: ${error}`
@@ -392,7 +392,7 @@ export function runIncrementalAudit(
     try {
       const result = runPackageAudit(packagePath, opts);
       packageResults.push(result);
-    } catch (error) {
+    } catch (_error) {
       console.error(`Error auditing ${packageName}: ${error}`);
     }
   }
@@ -480,7 +480,7 @@ function getPackageName(packagePath: string): string {
     const packageJsonPath = path.join(packagePath, 'package.json');
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
     return packageJson.name || path.basename(packagePath);
-  } catch (error) {
+  } catch (_error) {
     return path.basename(packagePath);
   }
 }
@@ -715,7 +715,7 @@ function generateRecommendations(
           ],
         });
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore cross-package analysis errors
     }
   }

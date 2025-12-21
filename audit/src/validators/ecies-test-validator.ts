@@ -247,7 +247,7 @@ function checkCombinationTested(
       if (hasMode && hasProvider) {
         return true;
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files that can't be read
       continue;
     }
@@ -303,7 +303,7 @@ function validateStreamingTests(testFiles: string[]): StreamingTestResult {
           hasLargeFileTests = true;
         }
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files that can't be read
       continue;
     }
@@ -345,7 +345,7 @@ function validateMultiRecipientTests(
         hasMultiRecipientTests = true;
         multiRecipientTestFiles.push(testFile);
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files that can't be read
       continue;
     }
@@ -407,7 +407,7 @@ function validateBinaryCompatibilityTests(
       if (hasEciesLib && hasNodeEciesLib) {
         crossPackageTestsExist = true;
       }
-    } catch (error) {
+    } catch (_error) {
       // Skip files that can't be read
       continue;
     }
@@ -460,7 +460,7 @@ function collectTestFiles(dir: string, testFiles: string[]): void {
         testFiles.push(fullPath);
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Skip directories that can't be read
   }
 }

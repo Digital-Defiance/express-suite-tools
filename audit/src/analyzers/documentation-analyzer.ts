@@ -30,7 +30,7 @@ export function analyzePackage(packagePath: string): PackageDocumentation {
     try {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       packageName = packageJson.name || packageName;
-    } catch (error) {
+    } catch (_error) {
       // Use directory name as fallback
     }
   }

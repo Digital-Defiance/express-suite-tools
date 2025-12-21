@@ -96,7 +96,7 @@ function findTypeScriptFiles(dir: string): string[] {
  */
 function extractExportsFromFile(
   sourceFile: ts.SourceFile,
-  checker: ts.TypeChecker,
+  _checker: ts.TypeChecker,
   packagePath: string
 ): ExportedSymbol[] {
   const exports: ExportedSymbol[] = [];
@@ -162,7 +162,7 @@ function hasExportModifier(node: ts.Node): boolean {
  */
 function extractSymbolFromNode(
   node: ts.Node,
-  checker: ts.TypeChecker,
+  _checker: ts.TypeChecker,
   sourceFile: string
 ): ExportedSymbol | null {
   // Function declarations
@@ -236,7 +236,7 @@ function extractSymbolFromNode(
  */
 function handleExportDeclaration(
   node: ts.ExportDeclaration,
-  checker: ts.TypeChecker,
+  _checker: ts.TypeChecker,
   sourceFile: ts.SourceFile,
   relativeFilePath: string
 ): ExportedSymbol[] {
@@ -276,7 +276,7 @@ function handleExportDeclaration(
  */
 function handleExportAssignment(
   node: ts.ExportAssignment,
-  checker: ts.TypeChecker,
+  _checker: ts.TypeChecker,
   sourceFile: string
 ): ExportedSymbol | null {
   if (ts.isIdentifier(node.expression)) {
@@ -302,7 +302,7 @@ function handleExportAssignment(
  */
 function getSymbolType(
   symbol: ts.Symbol,
-  checker: ts.TypeChecker
+  _checker: ts.TypeChecker
 ): 'function' | 'class' | 'interface' | 'type' | 'const' {
   const declarations = symbol.getDeclarations();
   if (!declarations || declarations.length === 0) {
@@ -335,7 +335,7 @@ function getSymbolType(
  */
 function getSymbolSignature(
   symbol: ts.Symbol,
-  checker: ts.TypeChecker,
+  _checker: ts.TypeChecker,
   type: 'function' | 'class' | 'interface' | 'type' | 'const'
 ): string {
   const declarations = symbol.getDeclarations();
@@ -378,7 +378,7 @@ function getSymbolSignature(
  */
 function getFunctionSignature(
   node: ts.FunctionDeclaration,
-  checker: ts.TypeChecker
+  _checker: ts.TypeChecker
 ): string {
   const name = node.name?.text || 'anonymous';
   const params = node.parameters
@@ -399,7 +399,7 @@ function getFunctionSignature(
  */
 function getClassSignature(
   node: ts.ClassDeclaration,
-  checker: ts.TypeChecker
+  _checker: ts.TypeChecker
 ): string {
   const name = node.name?.text || 'Anonymous';
   const heritage = node.heritageClauses
@@ -421,7 +421,7 @@ function getClassSignature(
  */
 function getInterfaceSignature(
   node: ts.InterfaceDeclaration,
-  checker: ts.TypeChecker
+  _checker: ts.TypeChecker
 ): string {
   const name = node.name.text;
   const heritage = node.heritageClauses
@@ -439,7 +439,7 @@ function getInterfaceSignature(
  */
 function getTypeAliasSignature(
   node: ts.TypeAliasDeclaration,
-  checker: ts.TypeChecker
+  _checker: ts.TypeChecker
 ): string {
   const name = node.name.text;
   const type = node.type.getText();
@@ -451,7 +451,7 @@ function getTypeAliasSignature(
  */
 function getVariableSignature(
   node: ts.VariableDeclaration,
-  checker: ts.TypeChecker
+  _checker: ts.TypeChecker
 ): string {
   const name = node.name.getText();
   const type = node.type ? node.type.getText() : 'unknown';

@@ -22,7 +22,7 @@ interface ErrorTestPattern {
 /**
  * Pattern for identifying edge case tests
  */
-interface EdgeCaseTestPattern {
+interface _EdgeCaseTestPattern {
   testName: string;
   testFile: string;
   testedFunction: string;
@@ -192,7 +192,7 @@ function analyzeTestFile(testFile: string): {
       integrationTests,
       exampleTests,
     };
-  } catch (error) {
+  } catch (_error) {
     return {
       totalTests: 0,
       errorTests: 0,
@@ -346,7 +346,7 @@ function extractErrorTestsFromFile(testFile: string): ErrorTestPattern[] {
     }
 
     visit(sourceFile);
-  } catch (error) {
+  } catch (_error) {
     // Ignore parse errors
   }
 
@@ -468,7 +468,7 @@ function correlateExportWithTests(
         const testRegex = /\b(it|test)\s*\(/g;
         testCount += (content.match(testRegex) || []).length;
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore file read errors
     }
   }

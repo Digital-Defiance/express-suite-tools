@@ -100,7 +100,7 @@ export function findTestUtilsWithoutValidationTests(
       const content = fs.readFileSync(testFile, 'utf-8');
       const imports = extractImportsFromTestFile(content);
       imports.forEach((imp) => testedSymbols.add(imp));
-    } catch (error) {
+    } catch (_error) {
       // Skip files that can't be read
       continue;
     }
@@ -140,7 +140,7 @@ function findTestFilesRecursive(dirPath: string): string[] {
         testFiles.push(fullPath);
       }
     }
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 
@@ -206,7 +206,7 @@ export function validateTestUtils(
     try {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       packageName = packageJson.name || 'unknown';
-    } catch (error) {
+    } catch (_error) {
       // Use default name if parsing fails
     }
   }

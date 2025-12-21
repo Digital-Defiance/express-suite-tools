@@ -72,7 +72,7 @@ export function runJestCoverage(packagePath: string): RawCoverageData {
 
     // If no coverage file, return empty coverage
     return createEmptyCoverageData();
-  } catch (error) {
+  } catch (_error) {
     // If Jest fails or no tests exist, return empty coverage
     console.warn(
       `Warning: Could not run coverage for ${packagePath}: ${error}`
@@ -165,7 +165,7 @@ function createMetric(
  */
 export function identifyUntestedExports(
   packagePath: string,
-  coverageReport: CoverageReport
+  _coverageReport: CoverageReport
 ): UntestedExport[] {
   const untestedExports: UntestedExport[] = [];
 
@@ -280,7 +280,7 @@ function extractTestedSymbols(testFiles: string[]): Set<string> {
           testedSymbols.add(symbolMatch[1]);
         }
       }
-    } catch (error) {
+    } catch (_error) {
       console.warn(`Warning: Could not read test file ${testFile}: ${error}`);
     }
   }
@@ -328,7 +328,7 @@ export function runCoverageAnalysis(packagePath: string): CoverageReport {
     try {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       packageName = packageJson.name || packageName;
-    } catch (error) {
+    } catch (_error) {
       // Use directory name as fallback
     }
   }

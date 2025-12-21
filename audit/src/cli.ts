@@ -47,6 +47,33 @@ interface CliConfig {
 }
 
 /**
+ * Global program options from commander
+ */
+interface ProgramOptions {
+  coverage?: boolean;
+  crossPackage?: boolean;
+  examples?: boolean;
+  references?: boolean;
+  verbose?: boolean;
+  output?: string;
+  format?: string;
+  exclude?: string[];
+  statementThreshold?: string;
+  branchThreshold?: string;
+}
+
+/**
+ * Command-specific options
+ */
+interface CommandOptions {
+  root?: string;
+  changed?: string[];
+  input?: string;
+  output?: string;
+  format?: string;
+}
+
+/**
  * Default CLI configuration
  */
 const defaultConfig: CliConfig = {
@@ -124,7 +151,7 @@ function saveReport(
       }
       console.log(chalk.green(`✅ HTML report saved to ${outputPath}`));
     }
-  } catch (error) {
+  } catch (_error) {
     console.error(chalk.red(`❌ Failed to save report: ${error}`));
     process.exit(1);
   }
@@ -169,19 +196,20 @@ program
   .command('audit')
   .description('Run a full audit on all packages in the monorepo')
   .option('-r, --root <path>', 'Monorepo root directory')
-  .action((options) => {
+  .action((options: CommandOptions) => {
+    const programOpts = program.opts() as ProgramOptions;
     const config: CliConfig = {
       ...defaultConfig,
-      coverage: program.opts().coverage !== false,
-      crossPackage: program.opts().crossPackage !== false,
-      examples: program.opts().examples !== false,
-      references: program.opts().references !== false,
-      verbose: program.opts().verbose || false,
-      output: program.opts().output,
-      format: program.opts().format || 'console',
-      exclude: program.opts().exclude || [],
-      statementThreshold: parseInt(program.opts().statementThreshold) || 90,
-      branchThreshold: parseInt(program.opts().branchThreshold) || 85,
+      coverage: programOpts.coverage !== false,
+      crossPackage: programOpts.crossPackage !== false,
+      examples: programOpts.examples !== false,
+      references: programOpts.references !== false,
+      verbose: programOpts.verbose || false,
+      output: programOpts.output,
+      format: (programOpts.format as CliConfig['format']) || 'console',
+      exclude: programOpts.exclude || [],
+      statementThreshold: parseInt(programOpts.statementThreshold || '90'),
+      branchThreshold: parseInt(programOpts.branchThreshold || '85'),
     };
 
     const monorepoRoot = options.root
@@ -217,7 +245,7 @@ program
         console.log(chalk.green('\n✅ Audit completed successfully'));
         process.exit(0);
       }
-    } catch (error) {
+    } catch (_error) {
       console.error(chalk.red(`\n❌ Audit failed: ${error}`));
       if (config.verbose) {
         console.error(error);
@@ -234,19 +262,20 @@ program
   .command('audit:package <package>')
   .description('Run audit on a single package')
   .option('-r, --root <path>', 'Monorepo root directory')
-  .action((packageName, options) => {
+  .action((packageName: string, options: CommandOptions) => {
+    const programOpts = program.opts() as ProgramOptions;
     const config: CliConfig = {
       ...defaultConfig,
-      coverage: program.opts().coverage !== false,
-      crossPackage: program.opts().crossPackage !== false,
-      examples: program.opts().examples !== false,
-      references: program.opts().references !== false,
-      verbose: program.opts().verbose || false,
-      output: program.opts().output,
-      format: program.opts().format || 'console',
-      exclude: program.opts().exclude || [],
-      statementThreshold: parseInt(program.opts().statementThreshold) || 90,
-      branchThreshold: parseInt(program.opts().branchThreshold) || 85,
+      coverage: programOpts.coverage !== false,
+      crossPackage: programOpts.crossPackage !== false,
+      examples: programOpts.examples !== false,
+      references: programOpts.references !== false,
+      verbose: programOpts.verbose || false,
+      output: programOpts.output,
+      format: (programOpts.format as CliConfig['format']) || 'console',
+      exclude: programOpts.exclude || [],
+      statementThreshold: parseInt(programOpts.statementThreshold || '90'),
+      branchThreshold: parseInt(programOpts.branchThreshold || '85'),
     };
 
     const monorepoRoot = options.root
@@ -305,7 +334,7 @@ program
         console.log(chalk.green('\n✅ Audit completed successfully'));
         process.exit(0);
       }
-    } catch (error) {
+    } catch (_error) {
       console.error(chalk.red(`\n❌ Audit failed: ${error}`));
       if (config.verbose) {
         console.error(error);
@@ -323,19 +352,20 @@ program
   .description('Run validation checks for CI/CD (fails on critical issues)')
   .option('-r, --root <path>', 'Monorepo root directory')
   .option('--changed <files...>', 'Only validate changed files')
-  .action((options) => {
+  .action((options: CommandOptions) => {
+    const programOpts = program.opts() as ProgramOptions;
     const config: CliConfig = {
       ...defaultConfig,
-      coverage: program.opts().coverage !== false,
-      crossPackage: program.opts().crossPackage !== false,
-      examples: program.opts().examples !== false,
-      references: program.opts().references !== false,
-      verbose: program.opts().verbose || false,
-      output: program.opts().output,
-      format: program.opts().format || 'json',
-      exclude: program.opts().exclude || [],
-      statementThreshold: parseInt(program.opts().statementThreshold) || 90,
-      branchThreshold: parseInt(program.opts().branchThreshold) || 85,
+      coverage: programOpts.coverage !== false,
+      crossPackage: programOpts.crossPackage !== false,
+      examples: programOpts.examples !== false,
+      references: programOpts.references !== false,
+      verbose: programOpts.verbose || false,
+      output: programOpts.output,
+      format: 'json',
+      exclude: programOpts.exclude || [],
+      statementThreshold: parseInt(programOpts.statementThreshold || '90'),
+      branchThreshold: parseInt(programOpts.branchThreshold || '85'),
     };
 
     const monorepoRoot = options.root
@@ -410,7 +440,7 @@ program
         console.log(chalk.green('\n✅ Validation passed'));
         process.exit(0);
       }
-    } catch (error) {
+    } catch (_error) {
       console.error(chalk.red(`\n❌ Validation failed: ${error}`));
       if (config.verbose) {
         console.error(error);
@@ -430,19 +460,20 @@ program
   .option('-i, --input <path>', 'Input JSON report file')
   .requiredOption('-o, --output <path>', 'Output file path')
   .requiredOption('-f, --format <format>', 'Output format (json, html)', 'html')
-  .action((options) => {
+  .action((options: CommandOptions) => {
+    const programOpts = program.opts() as ProgramOptions;
     const config: CliConfig = {
       ...defaultConfig,
-      coverage: program.opts().coverage !== false,
-      crossPackage: program.opts().crossPackage !== false,
-      examples: program.opts().examples !== false,
-      references: program.opts().references !== false,
-      verbose: program.opts().verbose || false,
+      coverage: programOpts.coverage !== false,
+      crossPackage: programOpts.crossPackage !== false,
+      examples: programOpts.examples !== false,
+      references: programOpts.references !== false,
+      verbose: programOpts.verbose || false,
       output: options.output,
-      format: options.format || 'html',
-      exclude: program.opts().exclude || [],
-      statementThreshold: parseInt(program.opts().statementThreshold) || 90,
-      branchThreshold: parseInt(program.opts().branchThreshold) || 85,
+      format: (options.format as CliConfig['format']) || 'html',
+      exclude: programOpts.exclude || [],
+      statementThreshold: parseInt(programOpts.statementThreshold || '90'),
+      branchThreshold: parseInt(programOpts.branchThreshold || '85'),
     };
 
     console.log(chalk.bold.cyan('\n📊 Generating report...\n'));
@@ -470,7 +501,7 @@ program
 
       console.log(chalk.green('\n✅ Report generated successfully'));
       process.exit(0);
-    } catch (error) {
+    } catch (_error) {
       console.error(chalk.red(`\n❌ Report generation failed: ${error}`));
       if (config.verbose) {
         console.error(error);

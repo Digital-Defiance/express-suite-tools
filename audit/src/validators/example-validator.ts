@@ -57,7 +57,7 @@ export function findTestsForExamples(
             imports: matchingSymbols,
           });
         }
-      } catch (error) {
+      } catch (_error) {
         // Skip files that can't be read
         continue;
       }
@@ -98,7 +98,7 @@ function findTestFiles(dirPath: string): string[] {
         testFiles.push(fullPath);
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Return empty array if directory can't be read
     return [];
   }

@@ -99,7 +99,7 @@ export function extractTestPatternExamples(
 
   let inCodeBlock = false;
   let codeBlockStart = -1;
-  let codeBlockLanguage = '';
+  let _codeBlockLanguage = '';
   let codeBlockContent: string[] = [];
   let inTestingSection = false;
 
@@ -126,7 +126,7 @@ export function extractTestPatternExamples(
         // Starting a code block
         inCodeBlock = true;
         codeBlockStart = i + 1;
-        codeBlockLanguage = line.substring(3).trim();
+        const _codeBlockLanguage = line.substring(3).trim();
         codeBlockContent = [];
       } else {
         // Ending a code block
@@ -203,7 +203,7 @@ export function extractCrossPackageTestDocs(
   const docs: CrossPackageTestDoc[] = [];
 
   let inTestingSection = false;
-  let currentSection = '';
+  let _currentSection = '';
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -211,7 +211,7 @@ export function extractCrossPackageTestDocs(
     // Check if we're in a testing section
     if (/^#+\s+(testing|tests|test\s+approach)/i.test(line)) {
       inTestingSection = true;
-      currentSection = line;
+      const _currentSection = line;
       continue; // Skip processing the header line itself
     }
 
@@ -294,7 +294,7 @@ export function hasCrossPackageDependencies(packagePath: string): boolean {
     // Check for Express Suite packages
     const expressPackagePattern = /^@(digitaldefiance|express-suite)\//;
     return Object.keys(allDeps).some((dep) => expressPackagePattern.test(dep));
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 }
@@ -316,7 +316,7 @@ export function validateTestingApproach(
     try {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       packageName = packageJson.name || 'unknown';
-    } catch (error) {
+    } catch (_error) {
       // Use default name if parsing fails
     }
   }

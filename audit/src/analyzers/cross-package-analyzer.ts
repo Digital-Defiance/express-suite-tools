@@ -68,7 +68,7 @@ export function analyzeDependencies(
           type: 'devDependency',
         });
       }
-    } catch (error) {
+    } catch (_error) {
       console.warn(`Warning: Could not parse ${packageJsonPath}: ${error}`);
     }
   }
@@ -122,10 +122,10 @@ function findPackages(monorepoRoot: string): string[] {
  */
 export function findIntegrationPoints(
   packages: PackageNode[],
-  monorepoRoot: string
+  _monorepoRoot: string
 ): IntegrationPoint[] {
   const integrationPoints: IntegrationPoint[] = [];
-  const packageNames = new Set(packages.map((p) => p.name));
+  const _packageNames = new Set(packages.map((p) => p.name));
 
   for (const pkg of packages) {
     // Find TypeScript files in the package
@@ -194,7 +194,7 @@ export function findIntegrationPoints(
             }
           }
         }
-      } catch (error) {
+      } catch (_error) {
         console.warn(`Warning: Could not analyze ${tsFile}: ${error}`);
       }
     }
@@ -242,7 +242,7 @@ function findTypeScriptFilesRecursive(dir: string, tsFiles: string[]): void {
         tsFiles.push(fullPath);
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Ignore errors (e.g., permission denied)
   }
 }
@@ -299,7 +299,7 @@ function checkIntegrationDocumented(
     const content = fs.readFileSync(readmePath, 'utf-8');
     // Check if the target package is mentioned in the README
     return content.includes(targetPackage);
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 }
@@ -323,7 +323,7 @@ function checkIntegrationTested(
       if (content.includes(targetPackage)) {
         return true;
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore errors
     }
   }
@@ -361,7 +361,7 @@ function findIntegrationExamples(
         examples.push(codeBlock);
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Ignore errors
   }
 
@@ -414,7 +414,7 @@ function findTestFilesRecursive(dir: string, testFiles: string[]): void {
         testFiles.push(fullPath);
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // Ignore errors
   }
 }
@@ -525,7 +525,7 @@ function getPackageVersion(packagePath: string): string {
     const packageJsonPath = path.join(packagePath, 'package.json');
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
     return packageJson.version || '0.0.0';
-  } catch (error) {
+  } catch (_error) {
     return 'unknown';
   }
 }
@@ -562,7 +562,7 @@ function findCompatibilityTests(
           description: `Compatibility test found in ${path.basename(testFile)}`,
         });
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore errors
     }
   }
@@ -635,7 +635,7 @@ export function checkDocumentedIntegrations(
           });
         }
       }
-    } catch (error) {
+    } catch (_error) {
       console.warn(`Warning: Could not analyze ${readmePath}: ${error}`);
     }
   }
@@ -653,7 +653,7 @@ function getPackageName(packagePath: string): string {
     const packageJsonPath = path.join(packagePath, 'package.json');
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
     return packageJson.name || path.basename(packagePath);
-  } catch (error) {
+  } catch (_error) {
     return path.basename(packagePath);
   }
 }
