@@ -11,8 +11,8 @@ import { PackageDocumentation, ValidationError } from '../types';
  * Encryption modes that should be documented in ECIES packages
  */
 export enum EncryptionMode {
-  Simple = 'Simple',
-  Single = 'Single',
+  Basic = 'Basic',
+  WithLength = 'WithLength',
   Multiple = 'Multiple',
 }
 
@@ -215,17 +215,17 @@ function findDocumentedEncryptionModes(
 
   // Check for each mode in the content
   if (
-    /\b(Simple|simple)\s+(mode|encryption|ECIES)/i.test(readmeContent) ||
-    /mode.*Simple/i.test(readmeContent)
+    /\b(Basic|basic)\s+(mode|encryption|ECIES)/i.test(readmeContent) ||
+    /mode.*Basic/i.test(readmeContent)
   ) {
-    documented.push(EncryptionMode.Simple);
+    documented.push(EncryptionMode.Basic);
   }
 
   if (
-    /\b(Single|single)\s+(mode|encryption|recipient)/i.test(readmeContent) ||
-    /mode.*Single/i.test(readmeContent)
+    /\b(WithLength|withLength|with\s*length)\s+(mode|encryption|recipient)/i.test(readmeContent) ||
+    /mode.*WithLength/i.test(readmeContent)
   ) {
-    documented.push(EncryptionMode.Single);
+    documented.push(EncryptionMode.WithLength);
   }
 
   if (

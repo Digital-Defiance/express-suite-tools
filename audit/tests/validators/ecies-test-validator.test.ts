@@ -291,8 +291,8 @@ describe('Cross-package compatibility', () => {
           coverage: 50,
           matrix: [],
           missingCombinations: [
-            { mode: EncryptionMode.Simple, provider: IdProvider.GUID },
-            { mode: EncryptionMode.Single, provider: IdProvider.UUID },
+            { mode: EncryptionMode.Basic, provider: IdProvider.GUID },
+            { mode: EncryptionMode.WithLength, provider: IdProvider.UUID },
           ],
         },
         streamingTests: {
@@ -331,8 +331,8 @@ describe('Cross-package compatibility', () => {
 
       expect(report).toContain('test-ecies');
       expect(report).toContain('50%');
-      expect(report).toContain('Simple × GUID');
-      expect(report).toContain('Single × UUID');
+      expect(report).toContain('Basic × GUID');
+      expect(report).toContain('WithLength × UUID');
       expect(report).toContain('Has streaming tests: Yes');
       expect(report).toContain('Has large file tests: No');
       expect(report).toContain('Errors: 1');

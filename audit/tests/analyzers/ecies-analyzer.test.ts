@@ -54,10 +54,10 @@ describe('ECIES Analyzer', () => {
 
 ## Encryption Modes
 
-### Simple Mode
+### Basic Mode
 Minimal overhead encryption.
 
-### Single Mode
+### WithLength Mode
 Single recipient encryption with length prefix.
 
 ### Multiple Mode
@@ -93,10 +93,10 @@ Binary compatible with node-ecies-lib.
       const result = analyzeEciesPackage(tempDir, packageDoc);
 
       expect(result.encryptionModes.documented).toContain(
-        EncryptionMode.Simple
+        EncryptionMode.Basic
       );
       expect(result.encryptionModes.documented).toContain(
-        EncryptionMode.Single
+        EncryptionMode.WithLength
       );
       expect(result.encryptionModes.documented).toContain(
         EncryptionMode.Multiple
@@ -111,7 +111,7 @@ Binary compatible with node-ecies-lib.
 
 ## Encryption Modes
 
-### Simple Mode
+### Basic Mode
 Minimal overhead encryption.
       `.trim();
 
@@ -129,9 +129,9 @@ Minimal overhead encryption.
       const result = analyzeEciesPackage(tempDir, packageDoc);
 
       expect(result.encryptionModes.documented).toContain(
-        EncryptionMode.Simple
+        EncryptionMode.Basic
       );
-      expect(result.encryptionModes.missing).toContain(EncryptionMode.Single);
+      expect(result.encryptionModes.missing).toContain(EncryptionMode.WithLength);
       expect(result.encryptionModes.missing).toContain(EncryptionMode.Multiple);
       expect(result.issues.length).toBeGreaterThan(0);
       expect(
@@ -355,14 +355,14 @@ Basic encryption functionality.
       const testsDir = path.join(tempDir, 'tests');
       fs.mkdirSync(testsDir);
 
-      // Create test file with Simple × ObjectId combination
+      // Create test file with Basic × ObjectId combination
       fs.writeFileSync(
-        path.join(testsDir, 'simple-objectid.test.ts'),
+        path.join(testsDir, 'basic-objectid.test.ts'),
         `
-describe('Simple mode with ObjectId', () => {
-  it('should encrypt with Simple mode and ObjectIdProvider', () => {
+describe('Basic mode with ObjectId', () => {
+  it('should encrypt with Basic mode and ObjectIdProvider', () => {
     const provider = new ObjectIdProvider();
-    const encrypted = encryptSimple(data, publicKey);
+    const encrypted = encryptBasic(data, publicKey);
     expect(encrypted).toBeDefined();
   });
 });
@@ -376,13 +376,13 @@ describe('Simple mode with ObjectId', () => {
       expect(result.coverage).toBeGreaterThan(0);
       expect(result.coverage).toBeLessThanOrEqual(100);
 
-      // Find the Simple × ObjectId combination
-      const simpleObjectId = result.matrix.find(
+      // Find the Basic × ObjectId combination
+      const basicObjectId = result.matrix.find(
         (entry) =>
-          entry.mode === EncryptionMode.Simple &&
+          entry.mode === EncryptionMode.Basic &&
           entry.provider === IdProvider.ObjectId
       );
-      expect(simpleObjectId?.tested).toBe(true);
+      expect(basicObjectId?.tested).toBe(true);
     });
 
     it('should calculate correct coverage percentage', () => {
@@ -391,10 +391,10 @@ describe('Simple mode with ObjectId', () => {
 
       // Create test files for 6 out of 12 combinations (50% coverage)
       const combinations = [
-        { mode: 'Simple', provider: 'ObjectId' },
-        { mode: 'Simple', provider: 'GUID' },
-        { mode: 'Single', provider: 'ObjectId' },
-        { mode: 'Single', provider: 'UUID' },
+        { mode: 'Basic', provider: 'ObjectId' },
+        { mode: 'Basic', provider: 'GUID' },
+        { mode: 'WithLength', provider: 'ObjectId' },
+        { mode: 'WithLength', provider: 'UUID' },
         { mode: 'Multiple', provider: 'ObjectId' },
         { mode: 'Multiple', provider: 'Custom' },
       ];
@@ -455,8 +455,8 @@ describe('${combo.mode} mode with ${combo.provider}', () => {
         matrix: [],
         coverage: 50,
         missingCombinations: [
-          { mode: EncryptionMode.Simple, provider: IdProvider.GUID },
-          { mode: EncryptionMode.Single, provider: IdProvider.UUID },
+          { mode: EncryptionMode.Basic, provider: IdProvider.GUID },
+          { mode: EncryptionMode.WithLength, provider: IdProvider.UUID },
         ],
       };
 
@@ -704,10 +704,10 @@ describe('Test ${mode} with ${provider}', () => {
         fc.property(
           fc.array(
             fc.constantFrom(
-              'Simple',
-              'Single',
+              'Basic',
+              'WithLength',
               'Multiple',
-              'simple mode',
+              'basic mode',
               'single recipient',
               'multi-recipient'
             ),
