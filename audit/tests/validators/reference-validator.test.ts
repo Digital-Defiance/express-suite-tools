@@ -11,6 +11,14 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { CrossReference } from '../../src/types';
+
+let _tempFileCounter = 0;
+function uniqueTempFile(prefix: string): string {
+  return path.join(
+    os.tmpdir(),
+    `${prefix}-${process.pid}-${Date.now()}-${++_tempFileCounter}.md`
+  );
+}
 import {
   getInvalidReferences,
   getValidReferences,
@@ -32,7 +40,7 @@ describe('Reference Validator', () => {
     });
 
     it('should parse import statements with package references', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Usage
 
@@ -50,12 +58,12 @@ import { MyClass } from '@digitaldefiance/ecies-lib';
           result.some((r) => r.targetPackage === '@digitaldefiance/ecies-lib')
         ).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should parse markdown link references', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Related Packages
 
@@ -72,12 +80,12 @@ See [@digitaldefiance/suite-core-lib](../suite-core-lib) for more info.
           )
         ).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should parse inline code references', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Installation
 
@@ -92,12 +100,12 @@ Install \`@digitaldefiance/i18n-lib\` to use this feature.
           result.some((r) => r.targetPackage === '@digitaldefiance/i18n-lib')
         ).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should parse npm install commands', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Installation
 
@@ -116,12 +124,12 @@ npm install @digitaldefiance/node-express-suite
           )
         ).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should parse yarn add commands', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Installation
 
@@ -138,12 +146,12 @@ yarn add @express-suite/test-utils
           result.some((r) => r.targetPackage === '@express-suite/test-utils')
         ).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should extract specific symbol references from imports', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Usage
 
@@ -164,12 +172,12 @@ import { encrypt, decrypt } from '@digitaldefiance/ecies-lib';
         expect(encryptRef?.targetPackage).toBe('@digitaldefiance/ecies-lib');
         expect(decryptRef?.targetPackage).toBe('@digitaldefiance/ecies-lib');
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should track location information for references', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Usage
 
@@ -187,12 +195,12 @@ import { MyClass } from '@digitaldefiance/ecies-lib';
         expect(result[0].location.line).toBeGreaterThan(0);
         expect(result[0].location.column).toBeGreaterThan(0);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should remove duplicate references', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Usage
 
@@ -214,7 +222,7 @@ import { MyClass } from '@digitaldefiance/ecies-lib';
         // Should have deduplicated based on line number
         expect(eciesRefs.length).toBeLessThanOrEqual(2);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
   });
@@ -292,7 +300,7 @@ import { MyClass } from '@digitaldefiance/ecies-lib';
 
   describe('validateCrossReferences', () => {
     it('should validate all references in a README', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('ref-test-readme');
       const content = `
 # Usage
 
@@ -323,7 +331,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
         expect(invalidRefs.length).toBeGreaterThan(0);
       } finally {
         if (fs.existsSync(tempFile)) {
-          fs.unlinkSync(tempFile);
+          if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
         }
       }
     });
@@ -407,7 +415,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
             { minLength: 1, maxLength: 5 }
           ),
           (references) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-references.md');
+            const tempFile = uniqueTempFile('pbt-references');
 
             try {
               let content = '# Documentation\n\n';
@@ -489,7 +497,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
               }
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -525,7 +533,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
             ),
           }),
           ({ validPackages, invalidPackages }) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-validation.md');
+            const tempFile = uniqueTempFile('pbt-validation');
 
             try {
               let content = '# Package Documentation\n\n';
@@ -589,7 +597,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
               expect(secondValidation.length).toBe(allReferences.length);
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -606,7 +614,7 @@ Install \`@digitaldefiance/non-existent-package\` for more features.
         fc.property(
           fc.constantFrom('ecies-lib', 'i18n-lib', 'suite-core-lib'),
           (packageName) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-formats.md');
+            const tempFile = uniqueTempFile('pbt-formats');
 
             try {
               const packageRef = `@digitaldefiance/${packageName}`;
@@ -649,7 +657,7 @@ See [${packageRef}](../${packageName}) and use \`${packageRef}\` in your project
               }
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -669,7 +677,7 @@ See [${packageRef}](../${packageName}) and use \`${packageRef}\` in your project
             symbolName: fc.stringMatching(/^[A-Z][a-zA-Z0-9]*$/),
           }),
           ({ packageName, symbolName }) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-symbols.md');
+            const tempFile = uniqueTempFile('pbt-symbols');
 
             try {
               const packageRef = `@digitaldefiance/${packageName}`;
@@ -707,7 +715,7 @@ import { ${symbolName} } from '${packageRef}';
               }
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -727,7 +735,7 @@ import { ${symbolName} } from '${packageRef}';
             maxLength: 5,
           }),
           (packages) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-locations.md');
+            const tempFile = uniqueTempFile('pbt-locations');
 
             try {
               let content = '# Documentation\n\n';
@@ -754,7 +762,7 @@ import { ${symbolName} } from '${packageRef}';
               }
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }

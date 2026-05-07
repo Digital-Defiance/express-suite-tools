@@ -14,6 +14,14 @@ import {
 } from '../../src/parsers/markdown-parser';
 import { PROPERTY_TEST_CONFIG } from '../test-config';
 
+let _tempFileCounter = 0;
+function uniqueTempFile(prefix: string): string {
+  return path.join(
+    os.tmpdir(),
+    `${prefix}-${process.pid}-${Date.now()}-${++_tempFileCounter}.md`
+  );
+}
+
 describe('Markdown Parser', () => {
   describe('parseReadmeContent', () => {
     it('should return empty array for non-existent file', () => {
@@ -22,7 +30,7 @@ describe('Markdown Parser', () => {
     });
 
     it('should parse function names from headings', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # API Reference
 
@@ -38,12 +46,12 @@ This function does something useful.
         expect(result.length).toBeGreaterThan(0);
         expect(result.some((s) => s.name === 'myFunction')).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should parse class names from headings', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # API Reference
 
@@ -58,12 +66,12 @@ A useful class for doing things.
         const result = parseReadmeContent(tempFile);
         expect(result.some((s) => s.name === 'MyClass')).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should parse symbols from code blocks', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # Usage
 
@@ -80,12 +88,12 @@ export function helperFunction(): void {
         const result = parseReadmeContent(tempFile);
         expect(result.some((s) => s.name === 'helperFunction')).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should parse backtick-wrapped identifiers', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # API
 
@@ -98,12 +106,12 @@ The \`myUtility\` function is very useful.
         const result = parseReadmeContent(tempFile);
         expect(result.some((s) => s.name === 'myUtility')).toBe(true);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should include descriptions for documented symbols', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # API Reference
 
@@ -120,12 +128,12 @@ This function processes data and returns a result.
         expect(symbol).toBeDefined();
         expect(symbol?.description).toContain('processes data');
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should track location information', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # API Reference
 
@@ -143,7 +151,7 @@ A test function.
         expect(symbol?.location.file).toBe(tempFile);
         expect(symbol?.location.line).toBeGreaterThan(0);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
   });
@@ -155,7 +163,7 @@ A test function.
     });
 
     it('should extract code blocks with language', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # Examples
 
@@ -172,12 +180,12 @@ const x = 42;
         expect(result[0].language).toBe('typescript');
         expect(result[0].code).toContain('const x = 42');
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should extract referenced symbols from code', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # Examples
 
@@ -195,12 +203,12 @@ myFunction();
         expect(result).toHaveLength(1);
         expect(result[0].referencedSymbols).toContain('myFunction');
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should track location of code examples', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # Examples
 
@@ -217,12 +225,12 @@ const x = 1;
         expect(result[0].location.file).toBe(tempFile);
         expect(result[0].location.line).toBeGreaterThan(0);
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
 
     it('should extract multiple code examples', () => {
-      const tempFile = path.join(os.tmpdir(), 'test-readme.md');
+      const tempFile = uniqueTempFile('test-readme');
       const content = `
 # Examples
 
@@ -243,7 +251,7 @@ const y = 2;
         expect(result[0].language).toBe('typescript');
         expect(result[1].language).toBe('javascript');
       } finally {
-        fs.unlinkSync(tempFile);
+        if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
       }
     });
   });
@@ -302,7 +310,7 @@ const y = 2;
             { minLength: 1, maxLength: 10 }
           ),
           (symbols) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-readme.md');
+            const tempFile = uniqueTempFile('pbt-readme');
 
             try {
               let content = '# API Reference\n\n';
@@ -360,7 +368,7 @@ const y = 2;
               }
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -383,7 +391,7 @@ const y = 2;
             { minLength: 1, maxLength: 5 }
           ),
           (examples) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-examples.md');
+            const tempFile = uniqueTempFile('pbt-examples');
 
             try {
               let content = '# Examples\n\n';
@@ -414,7 +422,7 @@ const y = 2;
               }
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -432,7 +440,7 @@ const y = 2;
           fc.integer({ min: 1, max: 6 }),
           fc.stringMatching(/^[a-z][a-zA-Z0-9]*$/),
           (headingLevel, functionName) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-headings.md');
+            const tempFile = uniqueTempFile('pbt-headings');
 
             try {
               const hashes = '#'.repeat(headingLevel);
@@ -447,7 +455,7 @@ const y = 2;
               expect(found).toBe(true);
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -465,7 +473,7 @@ const y = 2;
           fc.stringMatching(/^[A-Z][a-zA-Z0-9]*$/),
           fc.stringMatching(/^[a-z][a-zA-Z0-9]*$/),
           (className, functionName) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-mixed.md');
+            const tempFile = uniqueTempFile('pbt-mixed');
 
             try {
               const content = `
@@ -501,7 +509,7 @@ instance.${functionName}();
               expect(foundFunction).toBe(true);
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
@@ -518,7 +526,7 @@ instance.${functionName}();
         fc.property(
           fc.constantFrom('The', 'This', 'That', 'API', 'Usage', 'Example'),
           (commonWord) => {
-            const tempFile = path.join(os.tmpdir(), 'pbt-common.md');
+            const tempFile = uniqueTempFile('pbt-common');
 
             try {
               const content = `# ${commonWord}\n\n${commonWord} is a common word.\n`;
@@ -536,7 +544,7 @@ instance.${functionName}();
               expect(foundCommon.length).toBeLessThanOrEqual(1);
             } finally {
               if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
+                if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
               }
             }
           }
